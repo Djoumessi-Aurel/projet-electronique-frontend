@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/srvedca/precache-manifest.ecd34b538336eb35bcaf3ab6bfadc52d.js"
+  "/projet-electronique-frontend/precache-manifest.e718f7f916065ebf8476a4467ff77a44.js"
 );
 
 workbox.clientsClaim();
@@ -28,7 +28,7 @@ self.__precacheManifest = [].concat(self.__precacheManifest || []);
 workbox.precaching.suppressWarnings();
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
 
-workbox.routing.registerNavigationRoute("/srvedca/index.html", {
+workbox.routing.registerNavigationRoute("/projet-electronique-frontend/index.html", {
   
   blacklist: [/^\/_/,/\/[^/]+\.[^/]+$/],
 });
