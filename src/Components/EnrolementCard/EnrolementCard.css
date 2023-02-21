@@ -1,0 +1,60 @@
+.enrolementcard-container{
+    /*border: 1px solid green;*/
+    width: calc(100% - 16px);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba(22, 80, 129, 0.2);
+    border-radius: 8px;
+    box-shadow: 2px 4px 4px 0px rgba(0,0,0,0.1);
+    padding: 4px 8px;
+}
+
+.enrol-info{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+}
+
+.enrol-class{
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+    text-align: center;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+}
+
+.enrol-profile{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.enrol-name{
+    font-weight: bold;
+    color:black;
+    font-size: 16px;
+}
+
+.enrol-date{
+    font-size: 12px;
+    color: #708099;
+}
+
+.enrol-status{
+    border-radius: 8px;
+    background-color: white;
+    color: #499768;
+    font-size: 16px;
+    padding: 2px 4px;
+    text-align: center;
+}

@@ -1,0 +1,19 @@
+.entete{
+    border: 2px solid black;
+    font-size: large;
+    padding: 10px;
+    display: flex; flex-direction: column; gap: 10px;
+    margin-bottom: 10px;
+}
+
+.entete input, .entete select, .entete label, .entete button{
+    height: 28px; font-size: large; margin-right: 20px;
+}
+
+.entete input[type="checkbox"]{
+    width: 28px; margin-right: 0px;
+}
+
+.ligne{
+    display: flex;
+}

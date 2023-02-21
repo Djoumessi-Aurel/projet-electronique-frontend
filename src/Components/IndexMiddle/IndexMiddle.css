@@ -1,0 +1,59 @@
+.indexMiddle-container{
+    
+    display: flex;
+    flex-direction: row;
+    padding: 0px 120px;
+    justify-content: space-between;
+}
+
+.systemName{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.systemName-div{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.colorband{
+    height: 80%;
+    width: 10px;
+}
+
+.indexlLogoName{
+    margin-left: 30px;
+    font-size: 40px;
+    color: white;
+    font-weight: bold;
+    width: 75%;
+}
+
+.indexHeroImage{
+    border-radius: 100%;
+    width: 400px;
+    height: 400px;
+}
+
+.indexLoginButton{
+    color: white;
+    border: 2px solid #22AFF1;
+    border-radius: 100px;
+    width: 169px;
+    height: 56px;
+    text-align: center;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+
+}
+
+.indexLoginButton:hover{
+    background-color: #22AFF1;
+    color: white;
+}

@@ -1,0 +1,249 @@
+.students-div{
+    top: 28%;
+    position: absolute;
+    display: block;
+    width: 55%;
+    height: 78%;
+}
+
+.TableEnrol-div{
+    position: absolute;
+    display: block;
+    width: 100%;
+    height: 92%;
+    background-color: rgb(255, 255, 255);
+    border-radius: 15px;
+    overflow: auto;
+}
+
+.validate-all{
+    position: absolute;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    top: 2.5%;
+    left: 2%;
+    width: 120px;
+    height: 30px;
+    background-color: rgba(133, 220, 172, 1);
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 10px;
+    gap: 2px;
+}
+
+.validate-all img{
+    width: 20px;
+    height: 20px;
+}
+
+.sprint{
+    position: absolute;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    top: 2.5%;
+    left: 45%;
+    width: 120px;
+    height: 30px;
+    background-color: rgba(22, 80, 129, 1);
+    cursor: pointer; 
+    border-radius: 10px;
+    color: white;
+}
+
+.sprint img{
+    width: 20px;
+    height: 20px;
+}
+
+.form-search{
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    top: 2%;
+    left: 65%;
+    width: 200px;
+    height: 30px;
+    gap: 5px;
+}
+
+.input-btn{
+    display: flex;
+    flex-direction: row;
+}
+
+.search-icon{
+    padding: 0 5px;
+    background-color: rgba(22, 80, 129, 0.2);
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.search-input{
+    border: none;
+    background-color: rgba(22, 80, 129, 0.2);
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.search{
+    border: none;
+    border-radius: 10px;
+    background-color: rgba(22, 80, 129, 0.2);
+    cursor: pointer;
+}
+
+.Table{
+    position: absolute;
+    top: 11%;
+    left: 2%;
+    width: 97%;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+.Table th{
+    font-size: 15px;
+    padding-right: 15px;
+    padding-left: 5px;
+    background-color: rgba(212, 232, 255, 1);
+}
+
+.Table tr:nth-child(2n){
+    background: aliceblue;
+}
+
+.Table th:first-child{
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+}
+
+.Table th:last-child{
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+
+.button-modifier{
+    display: flex;
+    width: 90%;
+    align-items: center;
+    border-radius: 15px;
+    border: none;
+    height: 25px;
+    background: rgba(139, 197, 229, 1);
+    margin-bottom: 10px;
+    font-size: 10px;
+    font-weight: bold;
+    
+}
+
+.button-sup{
+    display: flex;
+    align-items: center;
+    width: 98%;
+    border-radius: 15px;
+    border: none;
+    height: 30px;
+    background: #F36666;
+    font-size: 10px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.button-val{
+    display: flex;
+    align-items: center;
+    width: 98%;
+    border-radius: 15px;
+    border: none;
+    height: 30px;
+    background: rgb(52, 241, 131);
+    font-size: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.valide{
+    display: block;
+    background-color: rgba(218, 237, 226, 1);
+    color: rgb(52, 241, 131);
+    font-size: 12px;
+    border-radius: 5px;
+    height: 18px;
+    width: 50px;
+    margin-left: 8px;
+}
+
+.student-name{
+    text-transform: uppercase;
+}
+
+.attente{
+    display: block;
+    background: rgb(242, 211, 211);
+    color: rgb(240, 19, 41);
+    font-size: 12px;
+    border-radius: 5px;
+    height: 30px;
+    width: 50px;
+    margin-left: 8px;
+}
+
+/*-----------------------Modal1---------------------------*/
+
+.Validate-action{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 100px;
+}
+
+.Validate-oui{
+    display: flex;
+    padding: 10px;
+    background-color: rgb(52, 241, 131);
+    text-decoration: none;
+    color: black;
+    font-size: 20px;
+    border-radius: 20px;
+}
+
+.Validate-non{
+    display: flex;
+    padding: 10px;
+    background-color: rgb(240, 19, 41);
+    text-decoration: none;
+    color: black;
+    font-size: 20px;
+    border-radius: 20px;
+}
+
+/*-----------------------Modal 2--------------------------*/
+
+.close-btn-modal{
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+}
+
+.form-class{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+
+.labelForm{
+    font-size: 20px;
+}
+
+.label-input{
+    border-radius: 5px;
+    border: 1px solid;
+    width: 100%;
+    height: 30px;
+}
+.error{color:red}
+

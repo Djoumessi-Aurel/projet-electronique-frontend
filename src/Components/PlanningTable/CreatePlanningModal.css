@@ -1,0 +1,19 @@
+form.createModal div{
+    padding: 5px 0px;
+    display: flex;
+    justify-content: space-between;
+}
+
+form.createModal .fail{color: red;}
+h2.red{color: red;}
+
+form.createModal div:last-of-type{
+    margin-top: 25px;
+    display: flex;
+    justify-content: space-between;
+}
+
+
+form.createModal input, form.createModal select, form.createModal button{
+    width: 230px; height: 28px;
+}

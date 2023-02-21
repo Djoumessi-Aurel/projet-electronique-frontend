@@ -1,0 +1,10 @@
+.mainTopHeader-container{
+    width:calc(100% - 16px);
+    /*border: 1px solid red;*/
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+    gap: 2px;
+    padding: 0px;
+    
+}

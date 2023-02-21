@@ -1,0 +1,79 @@
+.cover{
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    width: 25%;
+    height: 40vh;
+    align-items: center;
+    justify-content: space-around;
+    position: relative;
+    background-color: white;
+    border-radius: 20px 20px 20px 20px;
+    position: fixed;
+    box-shadow: 0 6px 10px 4px rgba(0,0,0,0.15);
+}
+
+
+
+.placeholder{
+    position: absolute;
+    font-size: 13px;
+    top: 10px;
+    left: 8px;
+    padding: 0px 5px;
+    transition: 0.3s;
+    pointer-events: none;
+
+
+}
+.input:focus + .placeholder,
+.input:not(:placeholder-shown) 
++ .placeholder{
+    top: -10px;
+    color: #29ABF4;
+    background-color: white;
+    
+}
+.input-group{
+    position: relative;
+}
+.input{
+    border-radius: 2px;
+    border: 1px solid black;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 4px;
+    width: 100%;
+     
+}
+
+.input:active + .input:not(:placeholder-shown) {
+    border-color: #29ABF4;
+}
+
+.loginButton{
+    color: black;
+    border: 2px solid #22AFF1;
+    border-radius: 100px;
+    text-align: center;
+    padding: 10px 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    background-color: white;
+}
+
+.loginButton:hover{
+    background-color: #22AFF1;
+    color: white;
+}
+
+.connect-login{
+    text-decoration: none;
+    background-color: white;
+}
+
+.fail {
+    color: red;
+}

@@ -1,0 +1,41 @@
+.profileButton-container{
+    /*border: 2px solid brown;*/
+    gap: 4px;
+    width: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    background-color: white;
+    border-color: white;
+    padding: 4px;
+}
+
+.profileButton-container:hover{
+    background-color: rgba(22, 80, 129,0.2);
+    cursor: pointer;
+}
+
+.profileButton-container-img {
+    width: 60px;
+    height: 60px;
+    border-radius: 100%;
+    background-color: blue;
+}
+
+.profileButton-container-img span {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: aliceblue;
+    position: absolute;
+    padding-left: 20px;
+    padding-top: 10px;
+}
+
+.profileButton-container-span {
+    font-size: 24px;
+    color: black;
+    font-weight: bold;
+}

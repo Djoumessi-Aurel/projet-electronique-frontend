@@ -1,0 +1,9 @@
+.mainBody-container{
+    /*border: 1px solid red;*/
+    width: 100%;
+    height: 76%;
+    display: flex;
+    flex-direction: row;
+    justify-content: stretch;
+    gap: 2em;
+}

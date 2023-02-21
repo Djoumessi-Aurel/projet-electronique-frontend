@@ -1,0 +1,68 @@
+div.tableau{
+    background: white;
+    display: flex;
+    flex-direction: column;
+    border-radius: 1rem;
+    align-items: flex-start;
+    align-content: flex-start;
+    justify-content: flex-start;
+    padding: 1em;
+    gap: 1em;
+    flex-grow: 1;
+}
+div.tableau .table-header{ width: 100%;
+    display: flex; justify-content: space-between;
+}
+button{
+    cursor: pointer;
+}
+div.tableau header{
+    display: flex;
+    align-self: stretch;
+    gap: 1em;
+    justify-content: flex-end;
+}
+div.tableau header input{
+    border-radius: 10000px;
+}
+div.tableau header button:first-child{
+    justify-self: flex-start;
+}
+div.tableau button{
+    padding: .5em 1em;
+    border-radius: 10000px;
+    border: none;
+}
+
+div.tableau table{
+    align-self: stretch;
+    position: relative;
+    border-collapse: collapse;
+}
+div.tableau thead{
+    background: #D4E8FF;
+    border-radius: 6px;
+    overflow: hidden;
+}
+div.tableau th{
+    padding: .5em 1em;
+    text-align: left;
+    position: sticky;
+}
+div.tableau td{
+    padding: .25em 1em;
+}
+div.tableau td button{
+    width: 130px;
+    font-weight: bolder;
+}
+div.tableau td button:first-of-type{
+    margin-bottom: .5em;
+    background-color: #8BC5E5;
+}
+div.tableau td button:nth-of-type(2){
+    background-color: #f36666;
+}
+div.tableau tbody tr:nth-child(even){
+    background-color: #EFF4FA;
+}

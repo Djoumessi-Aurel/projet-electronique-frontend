@@ -1,0 +1,54 @@
+.Notification-container{
+    /*border: 1px solid red;*/
+    width: 100%;
+    height: 60%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 5px;
+}
+
+.Notification-container-div{
+    width: calc(100% - 16px);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0px 8px;
+}
+
+.notif-enrol-number-div{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 5px;
+
+}
+
+.notif-enrol{
+    font-weight: bold;
+    color: black;
+    font-size: 16px;
+}
+
+.notif-number{
+    color:white;
+    font-weight:bold;
+    background-color: #1F0B44;
+    text-align: center;
+    border-radius:100%;
+    font-size:12px;
+    padding: 5px 10px;
+}
+
+.notif-viewall{
+    color: #165081;
+    font-size: 16px;
+    text-decoration: none;
+}
+
+.notif-viewall:hover{
+    font-weight:bold;
+    cursor: pointer;
+}
