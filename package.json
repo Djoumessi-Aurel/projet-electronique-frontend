@@ -1,7 +1,7 @@
 {
   "name": "srvedca-frontend",
   "version": "0.1.0",
-  "homepage": "https://djoumessi-aurel.github.io/srvedca",
+  "homepage": "https://djoumessi-aurel.github.io/projet-electronique-frontend",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
