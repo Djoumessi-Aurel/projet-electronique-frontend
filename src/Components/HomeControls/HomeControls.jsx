@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import './HomeControls.css'
 
 import {HomeControlButton} from "../../Components"
@@ -6,45 +6,15 @@ import EnrolStudents from "../../assets/Images/EnrolStudents.png"
 import Class from "../../assets/Images/Class.png"
 import Courses from "../../assets/Images/Courses.png"
 import Admin from "../../assets/Images/Admin.png"
-import axios from 'axios'
 import { useSelector } from 'react-redux'
 
 
 const HomeControls =  () => {
-    const [nbreAdmin, setNbreAdmin] = useState(localStorage.getItem("nbreAdmin") || 0)
-    const [nbrEtudiant, setEtudiant] = useState(localStorage.getItem("nbrEtudiant") || 0)
     
     const nbClasses = useSelector(state => state.classes.array.length)
     const nbCours = useSelector(state => state.cours.array.length)
-
-    const updateTab= ()=>{
-        const url = "https://projet-electronique-backend-production.up.railway.app/api/admin/all";
-        axios.get(url).then((response) => {
-          localStorage.setItem("nbreAdmin", response.data.length);
-          setNbreAdmin(response.data.length)
-        }).catch(error => {
-          console.log(error)
-        })
-    };
-
-    const getStudent = () =>{
-        axios.get("https://projet-electronique-backend-production.up.railway.app/api/etudiant/").then((res)=>{
-          setEtudiant(res.data.etudiantList.length)
-          localStorage.setItem("nbrEtudiant", res.data.etudiantList.length)
-          //localStorage.setItem('studentList', JSON.stringify(res.data.data))
-        }).catch(err=>{
-          console.log(err);
-        });
-      }
-
-    
-      useEffect(() => {
-        getStudent()
-      }, []);
-
-    useEffect(() => {
-        updateTab()
-      }, [localStorage.getItem("nbreAdmin")]);
+    const nbrEtudiant = useSelector(state => state.etudiant.array.length)
+    const nbreAdmin = useSelector(state => state.admin.array.length)
 
     const controlsLayout = [
         {

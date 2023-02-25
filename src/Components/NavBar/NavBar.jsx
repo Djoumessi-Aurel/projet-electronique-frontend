@@ -62,8 +62,8 @@ export class NavBar extends Component {
             }
         ]
 
-        const NavLinks = allLinks.map((linkInfo) => 
-        <li>
+        const NavLinks = allLinks.map((linkInfo, index) => 
+        <li key={index}>
             <NavLink className={currentLink === linkInfo.id ? "activelink" : "linklayout-container"} to={linkInfo.path} end>
                 {linkInfo.icon}
                 <span>{linkInfo.label}</span>

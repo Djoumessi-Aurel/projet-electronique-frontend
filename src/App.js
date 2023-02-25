@@ -6,6 +6,8 @@ import { useDispatch } from 'react-redux';
 import { getClasses } from './features/classes';
 import { getCours } from './features/cours';
 import { getPlanning } from './features/planning';
+import { getAdmin } from './features/admin';
+import { getEtudiant } from './features/etudiant';
 
 
 function App() {
@@ -16,6 +18,8 @@ function App() {
         dispatch(getClasses())
         dispatch(getCours())
         dispatch(getPlanning())
+        dispatch(getAdmin())
+        dispatch(getEtudiant())
     }, [])
 
 

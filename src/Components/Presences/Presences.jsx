@@ -4,21 +4,22 @@ import axios from "axios";
 import moment from "moment/moment";
 import PresencesTable from "./PresencesTable"
 import { renderToString } from 'react-dom/server'
-
-const API = " https://projet-electronique-backend-production.up.railway.app/api/";
+import { API } from "../../static";
+import { useSelector } from "react-redux";
 
 const Presences = () => {
-  const [classeId, setClasseId] = useState();
   const [coursId, setCoursId] = useState();
   const [dateDebut, setDateDebut] = useState();
   const [dateFin, setDateFin] = useState(moment().format("YYYY-MM-DD"));
-  const [listeClasses, setListeClasses] = useState([]);
-  const [listeCours, setListeCours] = useState([]);
   const [allCours, setAllCours] = useState(false);
   const [allDates, setAllDates] = useState(false);
   const [TimeTable, setTimeTable] = useState([]);
 
   const [rechercheEnCours, setRechercheEnCours] = useState(false);
+
+  const listeClasses = useSelector(state => state.classes.array)
+  const listeCours = useSelector(state => state.cours.array)
+  const [classeId, setClasseId] = useState(listeClasses.length? listeClasses[0]._id : undefined)
 
   const getPresences = (e)=>{e.preventDefault()
 
@@ -40,34 +41,10 @@ const Presences = () => {
       })
       .catch(function (error) {
         setRechercheEnCours(false)
-        alert(error.message)
+        alert(error.response.data.message)
       });
     // console.log(jourSemaine, getDate(hDebut), getDate(hFin), cours)
   }
-
-  useEffect(() => {
-    axios
-      .get(API + 'cours/all')
-      .then(function(response) {
-        setListeCours(response.data);
-        // setCoursId(response.data[0]._id) //Ceci n'est pas bon
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
-  }, []);
-
-  useEffect(() => {
-    axios
-      .get(API + "classe/all")
-      .then(function(response) {
-        setListeClasses(response.data);
-        setClasseId(response.data[0]._id); //Car la première classe du tableau est le premier élément du select
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
-  }, []);
 
 
   return (
