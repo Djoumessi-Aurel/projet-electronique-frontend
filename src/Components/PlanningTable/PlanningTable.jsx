@@ -5,32 +5,14 @@ import './PlanningTable.css'
 import CreatePlanningModal from './CreatePlanningModal'
 import UpdatePlanningModal from './UpdatePlanningModal'
 import DeletePlanningModal from './DeletePlanningModal'
-import { useEffect } from 'react'
-import axios from 'axios'
-
-const API = " https://projet-electronique-backend-production.up.railway.app/api/"
-const jours = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"]
+import { jours } from '../../static'
+import { useSelector } from 'react-redux'
 
 const PlanningTable = ()=>{
 
     const [searchText, setSearchText] = useState("")
-    const [TimeTable, setTimeTable] = useState([])
-    
 
-    const updateTable = ()=>{
-            axios.get(API + 'planning/')
-          .then(function (response) {//console.log(response.data)
-            setTimeTable(response.data)
-          })
-          .catch(function (error) {
-            console.log(error);
-          })
-        
-    }
-
-    useEffect(()=>{
-        updateTable()
-    }, [])
+    const TimeTable = useSelector(state => state.planning.array)
 
     const TimeTableFiltered = TimeTable
     .filter((value)=>{
@@ -38,6 +20,12 @@ const PlanningTable = ()=>{
         return jours[value.jourSemaine - 1].toLowerCase().includes(searchText.toLowerCase()) || 
         value.cours.code.toLowerCase().includes(searchText.toLowerCase()) || 
         value.cours.nom.toLowerCase().includes(searchText.toLowerCase())
+    })
+    .sort((a, b) => {
+        if(a.jourSemaine === b.jourSemaine){
+            return a.hDebut.localeCompare(b.hDebut)
+        }
+        else return a.jourSemaine - b.jourSemaine
     })
 
     const planningTag = TimeTableFiltered
@@ -118,12 +106,12 @@ return (
         </table>
 
         <CreatePlanningModal IsOpen={createModalIsOpen} afterOpen={afterOpenCreateModal} 
-        close={closeCreateModal} updateTable={updateTable} />
+        close={closeCreateModal}  />
         
         {selectedIndex > -1 &&   (<UpdatePlanningModal IsOpen={updateModalIsOpen} afterOpen={afterOpenUpdateModal} 
-        close={closeUpdateModal} updateTable={updateTable} data = {TimeTableFiltered[selectedIndex]} />)}
+        close={closeUpdateModal}  data = {TimeTableFiltered[selectedIndex]} />)}
         {selectedIndex > -1 &&   (<DeletePlanningModal IsOpen={deleteModalIsOpen} afterOpen={afterOpenDeleteModal} 
-        close={closeDeleteModal} updateTable={updateTable} data = {TimeTableFiltered[selectedIndex]} />)}
+        close={closeDeleteModal}  data = {TimeTableFiltered[selectedIndex]} />)}
 
     </div>
     

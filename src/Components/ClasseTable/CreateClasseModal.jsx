@@ -1,8 +1,10 @@
 import React, { useState } from "react"
 import Modal from "react-modal"
+import axios from 'axios'
 import './CreateClasseModal.css'
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { addClass } from "../../features/classes";
+import { API } from "../../static";
 
 const customStyles = {
   content: {
@@ -15,6 +17,7 @@ const customStyles = {
   },
 };
 
+
 // Make sure to bind modal to your appElement (https://reactcommunity.org/react-modal/accessibility/)
 Modal.setAppElement("#root");
 
@@ -25,15 +28,25 @@ const CreateClasseModal = ({
 }) => {
   
     const [requestOK, setRequestOK] = useState("") //Le résultat de la requête en cas de réussite
+    const [requestFail, setRequestFail] = useState("") //Le résultat de la requête en cas d'échec
     const [nom, setNom] = useState('')
     const [salle, setSalle] = useState('')
 
     const dispatch = useDispatch()
-    const requestFail = useSelector(state => state.classes.requestFail)
 
     const createClasse = (e)=>{e.preventDefault()
-      dispatch(addClass({nom, salle}))
-      close()
+        axios.post(API + 'classe/store', {
+            nom, salle
+          })
+          .then(function (response) {
+            // console.log(response);
+            dispatch(addClass(response.data.content))
+            close() //On ferme la boîte de dialogue
+            setRequestFail('')
+          })
+          .catch(function (error) {
+            setRequestFail(error.response.data.message)
+          });
       }
 
   return (

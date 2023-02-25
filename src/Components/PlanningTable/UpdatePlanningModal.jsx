@@ -4,7 +4,9 @@ import axios from 'axios'
 import './CreatePlanningModal.css'
 import { useState } from "react";
 import moment from "moment/moment";
-import { useEffect } from "react";
+import { jours, API } from '../../static'
+import { useDispatch, useSelector } from "react-redux";
+import { updatePlanning } from "../../features/planning";
 
 const customStyles = {
   content: {
@@ -21,8 +23,6 @@ function getDate(timeString){
     let tab = timeString.split(':')
     return moment({hour: Number(tab[0]), minute: Number(tab[1])}).toDate()
 }
-const jours = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"]
-const API = " https://projet-electronique-backend-production.up.railway.app/api/"
 
 
 // Make sure to bind modal to your appElement (https://reactcommunity.org/react-modal/accessibility/)
@@ -31,7 +31,7 @@ Modal.setAppElement("#root");
 const UpdatePlanningModal = ({
   IsOpen,
   afterOpen,
-  close, updateTable, data
+  close, data
 }) => {
   
     const [requestOK, setRequestOK] = useState("") //Le résultat de la requête en cas de réussite
@@ -40,19 +40,12 @@ const UpdatePlanningModal = ({
     const [hFin, setHFin] = useState(data.hFin)
     const [hDebut, setHDebut] = useState(data.hDebut)
     const [cours, setCours] = useState(data.cours._id)
-    const [listeCours, setListeCours] = useState([])
-    
-    useEffect(()=>{
-        axios.get(API + 'cours/all')
-      .then(function (response) {
-        setListeCours(response.data)
-      })
-      .catch(function (error) {
-        console.log(error);
-      })
-    }, [])
 
-    const updatePlanning = (e)=>{e.preventDefault()
+    const listeCours = useSelector(state => state.cours.array)
+
+    const dispatch = useDispatch()
+
+    const modifyPlanning = (e)=>{e.preventDefault()
         axios.put(API + 'planning/update', {
             id: data._id,
             jourSemaine: jourSemaine,
@@ -62,7 +55,7 @@ const UpdatePlanningModal = ({
           })
           .then(function (response) {
             // console.log(response);
-            updateTable() //On actualise nos données
+            dispatch(updatePlanning(response.data.content)) //On actualise nos données
             close() //On ferme la boîte de dialogue
             setRequestFail('')
           })
@@ -115,7 +108,7 @@ const UpdatePlanningModal = ({
             {requestFail}
           </div>
           <div>
-            <button onClick={updatePlanning} >Modifier</button>
+            <button onClick={modifyPlanning} >Modifier</button>
             <button onClick={close}>Fermer</button>
           </div>
         </form>

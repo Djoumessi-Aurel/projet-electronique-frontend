@@ -4,6 +4,8 @@ import { Home, Enrol, Course, Class, Admin, Planning, Presence, Index, Login } f
 import { Routes, Route} from 'react-router-dom'
 import { useDispatch } from 'react-redux';
 import { getClasses } from './features/classes';
+import { getCours } from './features/cours';
+import { getPlanning } from './features/planning';
 
 
 function App() {
@@ -12,6 +14,8 @@ function App() {
 
     useEffect(()=>{
         dispatch(getClasses())
+        dispatch(getCours())
+        dispatch(getPlanning())
     }, [])
 
 

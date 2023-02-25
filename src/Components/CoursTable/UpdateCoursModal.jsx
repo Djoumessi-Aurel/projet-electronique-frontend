@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
 import axios from 'axios'
 import './CreateCoursModal.css'
+import { listeSemestres, API } from "../../static";
+import { useDispatch, useSelector } from "react-redux";
+import { updateCours } from "../../features/cours";
 
 const customStyles = {
   content: {
@@ -14,8 +17,6 @@ const customStyles = {
   },
 };
 
-const API = " https://projet-electronique-backend-production.up.railway.app/api/"
-const listeSemestres = [1, 2]
 
 // Make sure to bind modal to your appElement (https://reactcommunity.org/react-modal/accessibility/)
 Modal.setAppElement("#root");
@@ -23,7 +24,7 @@ Modal.setAppElement("#root");
 const UpdateCoursModal = ({
   IsOpen,
   afterOpen,
-  close, updateTable, data
+  close, data
 }) => {
   
     const [requestOK, setRequestOK] = useState("") //Le résultat de la requête en cas de réussite
@@ -31,20 +32,13 @@ const UpdateCoursModal = ({
     const [code, setCode] = useState(data.code)
     const [nom, setNom] = useState(data.nom)
     const [classeId, setClasseId] = useState(data.classe._id)
-    const [listeClasses, setListeClasses] = useState([])
     const [semestre, setSemestre] = useState(data.semestre)
     
-    useEffect(()=>{
-        axios.get(API + 'classe/all')
-      .then(function (response) {
-        setListeClasses(response.data)
-      })
-      .catch(function (error) {
-        console.log(error);
-      })
-    }, [])
+    const listeClasses = useSelector(state => state.classes.array)
 
-    const updateCours = (e)=>{e.preventDefault()
+    const dispatch = useDispatch()
+
+    const modifyCours = (e)=>{e.preventDefault()
         axios.put(API + 'cours/update', {
             id: data._id,
             code, nom, semestre,
@@ -52,13 +46,13 @@ const UpdateCoursModal = ({
           })
           .then(function (response) {
             // console.log(response);
-            updateTable() //On actualise nos données
+            dispatch(updateCours(response.data.content)) //On actualise nos données
             close() //On ferme la boîte de dialogue
             setCode(''); setNom('');
             setRequestFail('')
           })
           .catch(function (error) {
-            setRequestFail(error.message)
+            setRequestFail(error.response.data.message)
           });
         // console.log(jourSemaine, getDate(hDebut), getDate(hFin), cours)
       }
@@ -106,7 +100,7 @@ const UpdateCoursModal = ({
             {requestFail}
           </div>
           <div>
-            <button onClick={updateCours} >Modifier</button>
+            <button onClick={modifyCours} >Modifier</button>
             <button onClick={close}>Fermer</button>
           </div>
         </form>

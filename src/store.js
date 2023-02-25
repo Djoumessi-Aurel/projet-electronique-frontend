@@ -1,9 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
 import classesReducer from './features/classes'
+import coursReducer from './features/cours'
+import planningReducer from './features/planning'
 
 export const store = configureStore({
   reducer: {
-    // Define a top-level state field named `todos`, handled by `todosReducer`
     classes: classesReducer,
+    cours: coursReducer,
+    planning: planningReducer,
   }
 })

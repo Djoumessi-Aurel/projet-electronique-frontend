@@ -3,8 +3,9 @@ import Modal from "react-modal";
 import axios from 'axios'
 import './CreatePlanningModal.css'
 import { useState } from "react";
-import moment from "moment/moment";
-import { useEffect } from "react";
+import { jours, API } from '../../static'
+import { useDispatch, useSelector } from "react-redux";
+import { deletePlanning } from "../../features/planning";
 
 const customStyles = {
   content: {
@@ -17,13 +18,6 @@ const customStyles = {
   },
 };
 
-function getDate(timeString){
-    let tab = timeString.split(':')
-    return moment({hour: Number(tab[0]), minute: Number(tab[1])}).toDate()
-}
-const jours = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"]
-const API = " https://projet-electronique-backend-production.up.railway.app/api/"
-
 
 // Make sure to bind modal to your appElement (https://reactcommunity.org/react-modal/accessibility/)
 Modal.setAppElement("#root");
@@ -31,7 +25,7 @@ Modal.setAppElement("#root");
 const DeletePlanningModal = ({
   IsOpen,
   afterOpen,
-  close, updateTable, data
+  close, data
 }) => {
   
     const [requestOK, setRequestOK] = useState("") //Le résultat de la requête en cas de réussite
@@ -40,24 +34,17 @@ const DeletePlanningModal = ({
     const [hFin, setHFin] = useState(data.hFin)
     const [hDebut, setHDebut] = useState(data.hDebut)
     const [cours, setCours] = useState(data.cours._id)
-    const [listeCours, setListeCours] = useState([])
     
-    useEffect(()=>{
-        axios.get(API + 'cours/all')
-      .then(function (response) {
-        setListeCours(response.data)
-      })
-      .catch(function (error) {
-        console.log(error);
-      })
-    }, [])
+    const listeCours = useSelector(state => state.cours.array)
 
-    const deletePlanning = (e)=>{e.preventDefault()
+    const dispatch = useDispatch()
+
+    const removePlanning = (e)=>{e.preventDefault()
         //console.log(data)
         axios.delete(API + 'planning/delete/' + data._id)
           .then(function (response) {
             // console.log(response);
-            updateTable() //On actualise nos données
+            dispatch(deletePlanning(data._id)) //On actualise nos données
             close() //On ferme la boîte de dialogue
             setRequestFail('')
           })
@@ -110,7 +97,7 @@ const DeletePlanningModal = ({
             {requestFail}
           </div>
           <div>
-            <button onClick={deletePlanning} >Supprimer</button>
+            <button onClick={removePlanning} >Supprimer</button>
             <button onClick={close}>Fermer</button>
           </div>
         </form>

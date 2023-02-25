@@ -1,8 +1,10 @@
 import React, { useState } from "react"
 import Modal from "react-modal"
+import axios from 'axios'
 import './CreateClasseModal.css'
-import { useDispatch, useSelector } from "react-redux";
-import { operationBegan, updateClass } from "../../features/classes";
+import { useDispatch } from "react-redux"
+import { updateClass } from "../../features/classes"
+import { API } from "../../static"
 
 const customStyles = {
   content: {
@@ -25,17 +27,26 @@ const UpdateClasseModal = ({
 }) => {
   
     const [requestOK, setRequestOK] = useState("") //Le résultat de la requête en cas de réussite
+    const [requestFail, setRequestFail] = useState("") //Le résultat de la requête en cas d'échec
     const [nom, setNom] = useState(data.nom)
     const [salle, setSalle] = useState(data.salle)
 
     const dispatch = useDispatch()
-    const requestFail = useSelector(state => state.classes.requestFail)
-    const operationCompleted = useSelector(state => state.classes.operationCompleted)
-
-    if(operationCompleted) {close(); dispatch(operationBegan())}
 
     const updateClasse = (e)=>{e.preventDefault()
-        dispatch(updateClass({id: data._id, nom, salle}))
+        axios.put(API + 'classe/update', {
+            id: data._id,
+            nom, salle
+          })
+          .then(function (response) {
+            // console.log(response);
+            dispatch(updateClass(response.data.content))
+            close() //On ferme la boîte de dialogue
+            setRequestFail('')
+          })
+          .catch(function (error) {
+            setRequestFail(error.response.data.message)
+          });
       }
 
   return (

@@ -7,13 +7,15 @@ import Class from "../../assets/Images/Class.png"
 import Courses from "../../assets/Images/Courses.png"
 import Admin from "../../assets/Images/Admin.png"
 import axios from 'axios'
+import { useSelector } from 'react-redux'
 
 
 const HomeControls =  () => {
     const [nbreAdmin, setNbreAdmin] = useState(localStorage.getItem("nbreAdmin") || 0)
     const [nbrEtudiant, setEtudiant] = useState(localStorage.getItem("nbrEtudiant") || 0)
-    const [nbClasses, setNbClasses] = useState(localStorage.getItem("nbClasses") || 0)
-    const [nbCours, setNbCours] = useState(localStorage.getItem("nbCours") || 0)
+    
+    const nbClasses = useSelector(state => state.classes.array.length)
+    const nbCours = useSelector(state => state.cours.array.length)
 
     const updateTab= ()=>{
         const url = "https://projet-electronique-backend-production.up.railway.app/api/admin/all";
@@ -35,30 +37,9 @@ const HomeControls =  () => {
         });
       }
 
-      const getClasses = () =>{
-        axios.get("https://projet-electronique-backend-production.up.railway.app/api/classe/all").then((res)=>{
-          setNbClasses(res.data.length)
-          localStorage.setItem("nbClasses", res.data.length)
-          //localStorage.setItem('studentList', JSON.stringify(res.data.data))
-        }).catch(err=>{
-          console.log(err);
-        });
-      }
-
-      const getCours = () =>{
-        axios.get("https://projet-electronique-backend-production.up.railway.app/api/cours/all").then((res)=>{
-          setNbCours(res.data.length)
-          localStorage.setItem("nbCours", res.data.length)
-          //localStorage.setItem('studentList', JSON.stringify(res.data.data))
-        }).catch(err=>{
-          console.log(err);
-        });
-      }
     
       useEffect(() => {
         getStudent()
-        getClasses()
-        getCours()
       }, []);
 
     useEffect(() => {
