@@ -21,7 +21,7 @@ let currMonth = date.getMonth()
     let j = 0;
     
     for (let i = firstDayofMonth; i > 0; i--) { // creating li of previous month last days
-      liTag[j] = <li className="inactive">{lastDateofLastMonth - i + 1}</li>
+      liTag[j] = <li key={j} className="inactive">{lastDateofLastMonth - i + 1}</li>
       j++
     }
 
@@ -35,12 +35,12 @@ let currMonth = date.getMonth()
       else{
         isToday = ""
       }
-      liTag[j] = <li className={isToday}>{i}</li>
+      liTag[j] = <li key={j} className={isToday}>{i}</li>
       j++
     }
 
     for (let i = lastDayofMonth; i < 6; i++) { // creating li of next month first days
-        liTag[j] = <li className="inactive">{i - lastDayofMonth + 1}</li>
+        liTag[j] = <li key={j} className="inactive">{i - lastDayofMonth + 1}</li>
         j++
     }
  }

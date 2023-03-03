@@ -5,32 +5,14 @@ import './CoursTable.css'
 import CreateCoursModal from './CreateCoursModal'
 import UpdateCoursModal from './UpdateCoursModal'
 import DeleteCoursModal from './DeleteCoursModal'
-import { useEffect } from 'react'
-import axios from 'axios'
-
-const API = " https://projet-electronique-backend-production.up.railway.app/api/"
+import { useSelector } from 'react-redux'
 
 const CoursTable = ()=>{
 
     const [searchText, setSearchText] = useState("")
-    const [TimeTable, setTimeTable] = useState([])
     
+    const TimeTable = useSelector(state => state.cours.array)
 
-    const updateTable = ()=>{
-            axios.get(API + 'cours/all')
-          .then(function (response) {//console.log(response.data)
-            setTimeTable(response.data)
-            localStorage.setItem("nbCours", response.data.length)
-          })
-          .catch(function (error) {
-            console.log(error);
-          })
-        
-    }
-
-    useEffect(()=>{
-        updateTable()
-    }, [])
 
     const TimeTableFiltered = TimeTable
     .filter((value)=>{
@@ -39,6 +21,7 @@ const CoursTable = ()=>{
         value.nom.toLowerCase().includes(searchText.toLowerCase()) || 
         value.classe.nom.toLowerCase().includes(searchText.toLowerCase())
     })
+    .sort((a, b) => a.code.localeCompare(b.code))
 
     const coursTag = TimeTableFiltered
     .map((TimeTable, index) => <tr key={index}>
@@ -118,12 +101,12 @@ return (
         </table>
 
         <CreateCoursModal IsOpen={createModalIsOpen} afterOpen={afterOpenCreateModal} 
-        close={closeCreateModal} updateTable={updateTable} />
+        close={closeCreateModal}  />
         
         {selectedIndex > -1 &&   (<UpdateCoursModal IsOpen={updateModalIsOpen} afterOpen={afterOpenUpdateModal} 
-        close={closeUpdateModal} updateTable={updateTable} data = {TimeTableFiltered[selectedIndex]} />)}
+        close={closeUpdateModal}  data = {TimeTableFiltered[selectedIndex]} />)}
         {selectedIndex > -1 &&   (<DeleteCoursModal IsOpen={deleteModalIsOpen} afterOpen={afterOpenDeleteModal} 
-        close={closeDeleteModal} updateTable={updateTable} data = {TimeTableFiltered[selectedIndex]} />)}
+        close={closeDeleteModal}  data = {TimeTableFiltered[selectedIndex]} />)}
 
     </div>
     

@@ -12,6 +12,9 @@ import ReactJsAlert from "reactjs-alert";
 import { GrFormClose } from "react-icons/gr";
 import axios from 'axios'
 import moment from 'moment/moment';
+import { API } from '../../static';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteEtudiant, updateEtudiant, validateAllStudents, validateOneStudent } from '../../features/etudiant';
 
 const TableEnrolment = () => {
 
@@ -22,46 +25,27 @@ const TableEnrolment = () => {
         const [mat, setMat] = useState("");
         const [classe, setClasse] = useState("");
         const formRef = useRef()
-        const [student, setStudent]=useState([])
         const [searchText, setSearchText] = useState("");
         const [studentID, setId] = useState("")
         const [error, setError] = useState("")
         const [form, setForm] = useState(initialForm)
 
+        const student = useSelector(state => state.etudiant.array)
 
-        const url = "https://projet-electronique-backend-production.up.railway.app/api/etudiant/";
-        const getAllStudent = () =>{
-            axios.get(url).then((res)=>{
-              setStudent(res.data.etudiantList)
-              
-            }).catch(err=>{
-              console.log(err);
-            });
-          }
-
-          const getStudent = () =>{
-            const url = "https://projet-electronique-backend-production.up.railway.app/api/etudiant/attente";
-            axios.get(url).then((res)=>{
-              localStorage.setItem('studentList', JSON.stringify(res.data.data))
-            }).catch(err=>{
-              console.log(err);
-            });
-          }
-
+        const dispatch = useDispatch()
 
           const updateAll = ()=>{
-            const url = "https://projet-electronique-backend-production.up.railway.app/api/etudiant/updateAll";
+            const url = API + "etudiant/updateAll"; //valider tout les enrôlements en attente
             axios.put(url).then(res => {
-                getAllStudent()
-                getStudent()
-                console.log(res)
+                dispatch(validateAllStudents())
             }).catch(err =>{console.log(err)})
             }
 
             const deleteStudent = async () => {
               try {
-                const res = await axios.delete(`https://projet-electronique-backend-production.up.railway.app/api/etudiant/delete/${studentID}`);
-                //setResponse(res.data);
+                await axios.delete(`${API}etudiant/delete/${studentID}`); //supprimer un étudiant
+                dispatch(deleteEtudiant(studentID))
+                
                 setId("")
                 closeModal1()
                 setError("")
@@ -73,10 +57,9 @@ const TableEnrolment = () => {
 
             const updateStudent = (e)=>{
               e.preventDefault()
-              const url = `https://projet-electronique-backend-production.up.railway.app/api/etudiant/update/${studentID}`
+              const url = `${API}etudiant/update/${studentID}`
               axios.put(url,form).then((res)=>{
-                getAllStudent()
-                getStudent()
+                dispatch(updateEtudiant(res.data.content))
                 closeModal()
                 setError("")
               }).catch(err =>{
@@ -86,10 +69,9 @@ const TableEnrolment = () => {
             };
 
             const validateStudent = (id)=>{
-              const url = `https://projet-electronique-backend-production.up.railway.app/api/etudiant/validate/`
+              const url = `${API}etudiant/validate/` //Valider un enrôlement
               axios.put(url, {id: id}).then((res)=>{
-                getAllStudent()
-                getStudent()
+                dispatch(validateOneStudent(id))
                 setError("")
               }).catch(err => {
                 setError("Une erreur est survenue!")
@@ -97,10 +79,6 @@ const TableEnrolment = () => {
             }
 
             const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
-
-          useEffect(() => {
-            getAllStudent()
-          }, []);
 
 
         function openModal1(id) {
@@ -201,7 +179,7 @@ const TableEnrolment = () => {
         return(
             <div className='students-div'>
                 <div className='TableEnrol-div'>
-                    <a className='validate-all'onClick={updateAll} ><img src={Validate} alt="validate" /> Valider tout</a>
+                    <a className='validate-all' onClick={updateAll} ><img src={Validate} alt="validate" /> Valider tout</a>
                     <a className='sprint' onClick={printContent} ><img src={Sprint} alt="sprint"  /> Imprimer</a>
                     <form action="" className='form-search'>
                         <div className='input-btn'>
@@ -257,7 +235,7 @@ const TableEnrolment = () => {
                     quote=""
                     Close={() => setStatus(false)}
                 />
-            <button type='submit' className='btn-btn-primary' style={{borderRadius:5,textAlign:'center', padding:10,color:'white',background:'#939af0'}}>Ajouter</button>
+            <button type='submit' className='btn-btn-primary' style={{borderRadius:5,textAlign:'center', padding:10,color:'white',background:'#939af0'}}>Modifier</button>
 
         </form>
                 </Modal>
@@ -273,8 +251,8 @@ const TableEnrolment = () => {
                     <h2 ref={(_subtitle) => (subtitle = _subtitle)}>Voulez vous vraiment supprimer?</h2>
                             <div className='error'>{error}</div>
                             <div className='Validate-action'>
-                                <a className='Validate-oui' onClick={deleteStudent} href="">Oui</a>
-                                <a className='Validate-non' href="">Non</a>
+                                <button className='Validate-oui' onClick={deleteStudent} href="">Oui</button>
+                                <button className='Validate-non' onClick={closeModal1} >Non</button>
                             </div>
 
                 </Modal>

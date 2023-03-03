@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import "./LoginForm.css"
 import axios from "axios"
+import { API } from '../../static';
 
 
 
@@ -16,7 +17,7 @@ const LoginForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const url = "https://projet-electronique-backend-production.up.railway.app/api/auth/login";
+    const url = API + "auth/login";
     localStorage.clear();
 
     await axios.post(url, form).then((response) => {
@@ -44,7 +45,7 @@ const LoginForm = () => {
           <label className="placeholder"> Email</label>
       </div>
       <div className='input-group'>
-          <input name="motdepasse" type="password" class='input' placeholder=" " onChange={handleChange}/>
+          <input name="motdepasse" type="password" className='input' placeholder=" " onChange={handleChange}/>
           <label className="placeholder">Mot de passe</label>
       </div>
       <div className="fail">

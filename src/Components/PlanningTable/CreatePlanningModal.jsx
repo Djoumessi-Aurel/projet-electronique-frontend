@@ -4,7 +4,9 @@ import axios from 'axios'
 import './CreatePlanningModal.css'
 import { useState } from "react";
 import moment from "moment/moment";
-import { useEffect } from "react";
+import { jours, API } from '../../static'
+import { useDispatch, useSelector } from "react-redux";
+import { addPlanning } from "../../features/planning";
 
 const customStyles = {
   content: {
@@ -21,8 +23,7 @@ function getDate(timeString){
     let tab = timeString.split(':')
     return moment({hour: Number(tab[0]), minute: Number(tab[1])}).toDate()
 }
-const jours = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"]
-const API = " https://projet-electronique-backend-production.up.railway.app/api/"
+
 
 // Make sure to bind modal to your appElement (https://reactcommunity.org/react-modal/accessibility/)
 Modal.setAppElement("#root");
@@ -30,7 +31,7 @@ Modal.setAppElement("#root");
 const CreatePlanningModal = ({
   IsOpen,
   afterOpen,
-  close, updateTable
+  close
 }) => {
   
     const [requestOK, setRequestOK] = useState("") //Le résultat de la requête en cas de réussite
@@ -38,18 +39,11 @@ const CreatePlanningModal = ({
     const [jourSemaine, setJourSemaine] = useState(1)
     const [hFin, setHFin] = useState("10:00")
     const [hDebut, setHDebut] = useState("08:00")
-    const [cours, setCours] = useState()
-    const [listeCours, setListeCours] = useState([])
-    
-    useEffect(()=>{
-        axios.get(API + 'cours/all')
-      .then(function (response) {
-        setListeCours(response.data)
-      })
-      .catch(function (error) {
-        console.log(error);
-      })
-    }, [])
+
+    const listeCours = useSelector(state => state.cours.array)
+    const [cours, setCours] = useState(listeCours.length? listeCours[0]._id : '')
+
+    const dispatch = useDispatch()
 
     const createPlanning = (e)=>{e.preventDefault()
         axios.post(API + 'planning/store', {
@@ -59,8 +53,8 @@ const CreatePlanningModal = ({
             cours: cours
           })
           .then(function (response) {
-            // console.log(response);
-            updateTable() //On actualise nos données
+            //console.log(response.data.content);
+            dispatch(addPlanning(response.data.content)) //On actualise nos données
             close() //On ferme la boîte de dialogue
             setRequestFail('')
           })

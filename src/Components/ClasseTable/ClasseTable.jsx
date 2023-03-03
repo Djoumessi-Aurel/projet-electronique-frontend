@@ -5,32 +5,15 @@ import './ClasseTable.css'
 import CreateClasseModal from './CreateClasseModal'
 import UpdateClasseModal from './UpdateClasseModal'
 import DeleteClasseModal from './DeleteClasseModal'
-import { useEffect } from 'react'
-import axios from 'axios'
+import { useSelector } from 'react-redux'
 
-const API = " https://projet-electronique-backend-production.up.railway.app/api/"
 
 const ClasseTable = ()=>{
 
     const [searchText, setSearchText] = useState("")
-    const [TimeTable, setTimeTable] = useState([])
+    // const [TimeTable, setTimeTable] = useState([])
+    const TimeTable = useSelector(state => state.classes.array)
     
-
-    const updateTable = ()=>{
-            axios.get(API + 'classe/all')
-          .then(function (response) {//console.log(response.data)
-            setTimeTable(response.data)
-            localStorage.setItem("nbClasses", response.data.length)
-          })
-          .catch(function (error) {
-            console.log(error);
-          })
-        
-    }
-
-    useEffect(()=>{
-        updateTable()
-    }, [])
 
     const TimeTableFiltered = TimeTable
     .filter((value)=>{
@@ -38,6 +21,7 @@ const ClasseTable = ()=>{
         return value.nom.toLowerCase().includes(searchText.toLowerCase()) || 
         value.salle.toLowerCase().includes(searchText.toLowerCase())
     })
+    .sort((a, b) => a.nom.localeCompare(b.nom))
 
     const classeTag = TimeTableFiltered
     .map((TimeTable, index) => <tr key={index}>
@@ -113,12 +97,12 @@ return (
         </table>
 
         <CreateClasseModal IsOpen={createModalIsOpen} afterOpen={afterOpenCreateModal} 
-        close={closeCreateModal} updateTable={updateTable} />
+        close={closeCreateModal} />
         
         {selectedIndex > -1 &&   (<UpdateClasseModal IsOpen={updateModalIsOpen} afterOpen={afterOpenUpdateModal} 
-        close={closeUpdateModal} updateTable={updateTable} data = {TimeTableFiltered[selectedIndex]} />)}
+        close={closeUpdateModal} data = {TimeTableFiltered[selectedIndex]} />)}
         {selectedIndex > -1 &&   (<DeleteClasseModal IsOpen={deleteModalIsOpen} afterOpen={afterOpenDeleteModal} 
-        close={closeDeleteModal} updateTable={updateTable} data = {TimeTableFiltered[selectedIndex]} />)}
+        close={closeDeleteModal} data = {TimeTableFiltered[selectedIndex]} />)}
 
     </div>
     

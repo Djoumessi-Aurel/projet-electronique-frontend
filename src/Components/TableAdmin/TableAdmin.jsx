@@ -10,6 +10,9 @@ import Modal from 'react-modal';
 import ReactJsAlert from "reactjs-alert";
 import { GrFormClose } from "react-icons/gr";
 import axios from "axios";
+import { API } from '../../static';
+import { useDispatch, useSelector } from 'react-redux';
+import { addAdmin, deleteAdmin, updateAdmin } from '../../features/admin';
 
 const TableAdmin = () => {
 
@@ -22,19 +25,22 @@ const TableAdmin = () => {
     const [status, setStatus] = useState(false);
     const [type, setType] = useState("");
     const [title, setTitle] = useState("");
-    const [tab, setTab] = useState([]);
     const [isSuperAdmin, setSuperAdmin]=useState(false);
     const [form, setForm] = useState(initialForm);
-    const [formData, setFormData] = useState({nom:"",email:"",tel:"",role:"",motdepasse:""});
+    const [formData, setFormData] = useState({nom:"",email:"",tel:"",role:"admin",motdepasse:""});
     const [requestOK, setRequestOK] = useState("") //Le résultat de la requête en cas de réussite
     const [requestFail, setRequestFail] = useState("");
     const [disable, setDisable] = useState(false);
     const [searchText, setSearchText] = useState("");
+
+    const tab = useSelector(state => state.admin.array)
+
+    const dispatch = useDispatch()
     
 
     function openModal1(id) {
-        setIsOpens1(true);
         setAdminId(id)
+        setIsOpens1(true);
     }
 
     const openCreateModal = () => {
@@ -50,17 +56,6 @@ const TableAdmin = () => {
     function closeModal1() {
         setIsOpens1(false);
     }
-
-    const updateTab= ()=>{
-        const url = "https://projet-electronique-backend-production.up.railway.app/api/admin/all";
-        axios.get(url).then((response) => {
-          setTab(response.data)
-          localStorage.setItem("nbreAdmin", response.data.length);
-        
-        }).catch(error => {
-          console.log(error)
-        })
-    };
 
     const customStyles1 = {
         content: {
@@ -81,8 +76,8 @@ const TableAdmin = () => {
     const [modalIsOpens, setIsOpens] = useState(false);
 
     function openModal(id) {
-        setIsOpens(true);
         setAdminId(id);
+        setIsOpens(true);
         const user = JSON.parse(localStorage.getItem('user'));
         if(user && user._id==id){
             setRequestFail("");
@@ -101,17 +96,16 @@ const TableAdmin = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
   
-    const url = `https://projet-electronique-backend-production.up.railway.app/api/admin/update/`;
+    const url = `${API}admin/update/`;
     
     await axios.put(url, form).then((response) => {
         //window.location = "admin/";
         setRequestFail("")
         if (adminId == JSON.parse(localStorage.getItem("user"))._id){
-            localStorage.setItem("user", JSON.stringify(response.data.result))
+            localStorage.setItem("user", JSON.stringify(response.data.content))
         }
+        dispatch(updateAdmin(response.data.content))
         closeModal()
-        updateTab()
-        console.log(response.data.result)
     }).catch(error => {
       setError(error);
       setRequestFail(error.response.data.message)
@@ -121,12 +115,12 @@ const TableAdmin = () => {
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
-  const deleteAdmin = async () => {
-    const url = `https://projet-electronique-backend-production.up.railway.app/api/admin/destroy/${adminId}`;
+  const removeAdmin = async () => {
+    const url = `${API}admin/destroy/${adminId}`;
     
     await axios.delete(url).then((response) => {
         console.log(response)
-        updateTab()
+        dispatch(deleteAdmin(adminId))
         setRequestFail("")
         closeModal1()
     }).catch(error => {
@@ -143,10 +137,10 @@ const TableAdmin = () => {
   const handleCreateAdmin = async (e) => {
     e.preventDefault();
   
-    const url = `https://projet-electronique-backend-production.up.railway.app/api/admin/store`;
+    const url = `${API}admin/store`;
     
     await axios.post(url, formData).then((response) => {
-        updateTab()
+        dispatch(addAdmin(response.data.content))
         setRequestFail("")
         closeCreateModal()
     }).catch(error => {
@@ -184,10 +178,6 @@ const TableAdmin = () => {
 const formRef = useRef()
 
 
-useEffect(() => {
-    updateTab()
-  }, []);
-
   useEffect(() =>{
     if (localStorage.getItem("user") && JSON.parse(localStorage.getItem("user")).role == "superadmin"){
         setSuperAdmin(true); 
@@ -207,8 +197,8 @@ useEffect(() => {
   <td>{tab.tel}</td>
   <td>{tab.role}</td>
   <td>
-      <button onClick={() => openModal(tab._id)} className='button-modifier'><img src={Modifier} alt="modifier" />Modifier</button>
-      <button onClick={() => openModal1(tab._id)} className='button-sup'><img src={Delete} alt="delete" />Supprimer</button>
+      {(isSuperAdmin || JSON.parse(localStorage.getItem("user"))._id === tab._id) && <button onClick={() => openModal(tab._id)} className='button-modifier'><img src={Modifier} alt="modifier" />Modifier</button>}
+      {isSuperAdmin && <button onClick={() => openModal1(tab._id)} className='button-sup'><img src={Delete} alt="delete" />Supprimer</button>}
   </td>
 </tr>
 )
@@ -251,7 +241,7 @@ useEffect(() => {
                     contentLabel="Example Modal"
                 >
                   <a onClick={closeModal} className="close-btn-modal"><GrFormClose /></a>
-                    <h2 ref={(_subtitle) => (subtitle = _subtitle)}>Modifier l'étudiant</h2>
+                    <h2 ref={(_subtitle) => (subtitle = _subtitle)}>Modifier l'administrateur</h2>
                     
                     <form ref={formRef} onSubmit={handleSubmit}  className="form-class">
           
@@ -264,7 +254,7 @@ useEffect(() => {
                 <label className="labelForm" htmlFor="tel">Entrer son numéro de téléphone</label>
                 <input className="label-input" id="tel" type="text" placeholder="Téléphone..." name="tel" value={form.tel} onChange={handleChange} required/>
                 <label className="labelForm" htmlFor="role">role</label>
-                <select id="role" name="role" value={form.role} onChange={handleChange} >
+                <select id="role" name="role" value={form.role} onChange={handleChange} disabled={!(isSuperAdmin && form.role!=="superadmin")} >
                 <option value="admin">Admin</option>
                 <option value="superadmin">Super admin</option>
                 </select>
@@ -310,8 +300,8 @@ useEffect(() => {
                         
                                 <div className='Validate-action'>
                                     
-                                    <button onClick={deleteAdmin} className='btn-btn-primary' style={{borderRadius:5,textAlign:'center', padding:10,color:'white',background:'#939af0'}}>oui</button>
-                                    <a className='Validate-non' href="">Non</a>
+                                    <button onClick={removeAdmin} className='btn-btn-primary' style={{borderRadius:5,textAlign:'center', padding:10,color:'white',background:'#939af0'}}>oui</button>
+                                    <button className='Validate-non' onClick={closeModal1}>Non</button>
                                 </div>
 
                     </Modal>

@@ -2,6 +2,9 @@ import React, { useState } from "react"
 import Modal from "react-modal"
 import axios from 'axios'
 import './CreateClasseModal.css'
+import { useDispatch } from "react-redux";
+import { addClass } from "../../features/classes";
+import { API } from "../../static";
 
 const customStyles = {
   content: {
@@ -14,7 +17,6 @@ const customStyles = {
   },
 };
 
-const API = " https://projet-electronique-backend-production.up.railway.app/api/"
 
 // Make sure to bind modal to your appElement (https://reactcommunity.org/react-modal/accessibility/)
 Modal.setAppElement("#root");
@@ -22,7 +24,7 @@ Modal.setAppElement("#root");
 const CreateClasseModal = ({
   IsOpen,
   afterOpen,
-  close, updateTable
+  close
 }) => {
   
     const [requestOK, setRequestOK] = useState("") //Le résultat de la requête en cas de réussite
@@ -30,18 +32,20 @@ const CreateClasseModal = ({
     const [nom, setNom] = useState('')
     const [salle, setSalle] = useState('')
 
+    const dispatch = useDispatch()
+
     const createClasse = (e)=>{e.preventDefault()
         axios.post(API + 'classe/store', {
             nom, salle
           })
           .then(function (response) {
             // console.log(response);
-            updateTable() //On actualise nos données
+            dispatch(addClass(response.data.content))
             close() //On ferme la boîte de dialogue
             setRequestFail('')
           })
           .catch(function (error) {
-            setRequestFail(error.message)
+            setRequestFail(error.response.data.message)
           });
       }
 

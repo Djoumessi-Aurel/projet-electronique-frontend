@@ -2,6 +2,9 @@ import React, { useState } from "react"
 import Modal from "react-modal"
 import axios from 'axios'
 import './CreateClasseModal.css'
+import { API } from "../../static"
+import { deleteClass } from "../../features/classes"
+import { useDispatch } from "react-redux"
 
 const customStyles = {
   content: {
@@ -14,15 +17,13 @@ const customStyles = {
   },
 };
 
-const API = " https://projet-electronique-backend-production.up.railway.app/api/"
-
 // Make sure to bind modal to your appElement (https://reactcommunity.org/react-modal/accessibility/)
 Modal.setAppElement("#root");
 
 const DeleteClasseModal = ({
   IsOpen,
   afterOpen,
-  close, updateTable, data
+  close, data
 }) => {
   
     const [requestOK, setRequestOK] = useState("") //Le résultat de la requête en cas de réussite
@@ -30,16 +31,18 @@ const DeleteClasseModal = ({
     const [nom, setNom] = useState(data.nom)
     const [salle, setSalle] = useState(data.salle)
 
+    const dispatch = useDispatch()
+
     const deleteClasse = (e)=>{e.preventDefault()
         axios.delete(API + 'classe/delete/' + data._id)
           .then(function (response) {
             // console.log(response);
-            updateTable() //On actualise nos données
+            dispatch(deleteClass(data._id))
             close() //On ferme la boîte de dialogue
             setRequestFail('')
           })
           .catch(function (error) {
-            setRequestFail(error.message)
+            setRequestFail(error.response.data.message)
           });
       }
 

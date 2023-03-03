@@ -3,7 +3,9 @@ import Modal from "react-modal";
 import axios from 'axios'
 import './CreateCoursModal.css'
 import { useState } from "react";
-import { useEffect } from "react";
+import { listeSemestres, API } from "../../static";
+import { useDispatch, useSelector } from "react-redux";
+import { addCours } from "../../features/cours";
 
 const customStyles = {
   content: {
@@ -16,8 +18,6 @@ const customStyles = {
   },
 };
 
-const API = " https://projet-electronique-backend-production.up.railway.app/api/"
-const listeSemestres = [1, 2]
 
 // Make sure to bind modal to your appElement (https://reactcommunity.org/react-modal/accessibility/)
 Modal.setAppElement("#root");
@@ -25,27 +25,19 @@ Modal.setAppElement("#root");
 const CreateCoursModal = ({
   IsOpen,
   afterOpen,
-  close, updateTable
+  close
 }) => {
   
     const [requestOK, setRequestOK] = useState("") //Le résultat de la requête en cas de réussite
     const [requestFail, setRequestFail] = useState("") //Le résultat de la requête en cas d'échec
     const [code, setCode] = useState('')
     const [nom, setNom] = useState('')
-    const [classeId, setClasseId] = useState()
-    const [listeClasses, setListeClasses] = useState([])
     const [semestre, setSemestre] = useState(1)
-    
-    useEffect(()=>{
-        axios.get(API + 'classe/all')
-      .then(function (response) {
-        setListeClasses(response.data)
-        setClasseId(response.data[0]._id); //Car la première classe est le premier élément du select
-      })
-      .catch(function (error) {
-        console.log(error);
-      })
-    }, [])
+
+    const listeClasses = useSelector(state => state.classes.array)
+    const [classeId, setClasseId] = useState(listeClasses.length? listeClasses[0]._id : '')
+
+    const dispatch = useDispatch()
 
     const createCours = (e)=>{e.preventDefault()
         axios.post(API + 'cours/store', {
@@ -54,13 +46,13 @@ const CreateCoursModal = ({
           })
           .then(function (response) {
             // console.log(response);
-            updateTable() //On actualise nos données
+            dispatch(addCours(response.data.content)) //On actualise nos données
             close() //On ferme la boîte de dialogue
             setCode(''); setNom('');
             setRequestFail('')
           })
           .catch(function (error) {
-            setRequestFail(error.message)
+            setRequestFail(error.response.data.message)
           });
         // console.log(jourSemaine, getDate(hDebut), getDate(hFin), cours)
       }
