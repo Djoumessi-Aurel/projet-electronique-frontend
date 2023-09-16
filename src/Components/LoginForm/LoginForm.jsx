@@ -2,19 +2,20 @@ import React, { useState } from 'react'
 import "./LoginForm.css"
 import axios from "axios"
 import { API } from '../../static';
-
+import { useNavigate } from 'react-router-dom';
 
 
 const initialState = { email: '', motdepasse: ''};
 const LoginForm = () => {
+  const navigate = useNavigate()
 
- if (localStorage.getItem("token")) window.location = "accueil/";
   const [form, setForm] = useState(initialState);
   const [requestFail, setRequestFail] = useState("");
+  const [sending, setSending] = useState(false);
 
 
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e) => { setRequestFail(''); setSending(true);
     e.preventDefault();
 
     const url = API + "auth/login";
@@ -25,9 +26,9 @@ const LoginForm = () => {
       localStorage.setItem("user",JSON.stringify(response.data.result));
       localStorage.setItem("token", response.data.token)
     
-      window.location = "accueil/";
+      navigate("/accueil")
     }).catch(error => {
-      
+      setSending(false);
       setRequestFail("Identifiants invalides")
     })
 
@@ -51,6 +52,9 @@ const LoginForm = () => {
       <div className="fail">
         {requestFail}
       </div>
+      {
+        sending && <div style={{color: 'blue', fontWeight: 500}}>Connexion... Patientez svp.</div>
+      }
       
           <input type="submit" className='loginButton' value="Se Connecter"/>
       

@@ -47,9 +47,9 @@ const MainEnrolmentNotification = () => {
         }
       ]
 
-    const enrolledstudents = enrolledInfo.map((info) => 
+    const enrolledstudents = enrolledInfo.map((info, index) => 
     <EnrolementCard
-      key={info.id}
+      key={index}
       class = {info.classe.nom}
       color = {departmentColor[department.indexOf((info.classe.nom).substring(1))].color}
       name = {info.nom}

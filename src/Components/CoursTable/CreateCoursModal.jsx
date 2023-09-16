@@ -43,7 +43,7 @@ const CreateCoursModal = ({
         axios.post(API + 'cours/store', {
             code, nom, semestre,
             classe: classeId
-          })
+          }, {headers: {'Authorization': 'Basic '+ localStorage.getItem('token')}})
           .then(function (response) {
             // console.log(response);
             dispatch(addCours(response.data.content)) //On actualise nos données

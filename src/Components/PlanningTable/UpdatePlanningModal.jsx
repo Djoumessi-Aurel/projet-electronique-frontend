@@ -52,7 +52,7 @@ const UpdatePlanningModal = ({
             heureDebut: getDate(hDebut),
             heureFin: getDate(hFin),
             cours: cours
-          })
+          }, {headers: {'Authorization': 'Basic '+ localStorage.getItem('token')}})
           .then(function (response) {
             // console.log(response);
             dispatch(updatePlanning(response.data.content)) //On actualise nos données

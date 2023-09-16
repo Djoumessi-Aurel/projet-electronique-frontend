@@ -34,7 +34,7 @@ const DeleteClasseModal = ({
     const dispatch = useDispatch()
 
     const deleteClasse = (e)=>{e.preventDefault()
-        axios.delete(API + 'classe/delete/' + data._id)
+        axios.delete(API + 'classe/delete/' + data._id, {headers: {'Authorization': 'Basic '+ localStorage.getItem('token')}})
           .then(function (response) {
             // console.log(response);
             dispatch(deleteClass(data._id))

@@ -25,17 +25,22 @@ function App() {
 
   return (
     <div className="App">
-      <Routes>
-        <Route path='/' element ={<Index/>}/>
-        <Route path='/login' element ={<Login/>}/>
-        <Route path='/accueil' element={<Home/>}/>
-        <Route path='/etudiant' element = {<Enrol/>}/>
-        <Route path='/classe' element = {<Class/>}/>
-        <Route path='/cours' element = {<Course/>}/>
-        <Route path='/admin' element = {<Admin/>}/>
-        <Route path='/planning' element = {<Planning/>}/>
-        <Route path='/présence' element = {<Presence/>}/>
-      </Routes>
+      <div>
+        <Routes>
+          <Route path='/' element ={<Index/>}/>
+          <Route path='/login' element ={<Login/>}/>
+          <Route path='/accueil' element={<Home/>}/>
+          <Route path='/etudiant' element = {<Enrol/>}/>
+          <Route path='/classe' element = {<Class/>}/>
+          <Route path='/cours' element = {<Course/>}/>
+          <Route path='/admin' element = {<Admin/>}/>
+          <Route path='/planning' element = {<Planning/>}/>
+          <Route path='/présence' element = {<Presence/>}/>
+        </Routes>
+      </div>
+      <footer>
+        &copy; igea 2023
+      </footer>
     </div>
   );
 }

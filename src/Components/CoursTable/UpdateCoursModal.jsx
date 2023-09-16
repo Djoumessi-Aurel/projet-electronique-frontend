@@ -43,7 +43,7 @@ const UpdateCoursModal = ({
             id: data._id,
             code, nom, semestre,
             classe: classeId
-          })
+          }, {headers: {'Authorization': 'Basic '+ localStorage.getItem('token')}})
           .then(function (response) {
             // console.log(response);
             dispatch(updateCours(response.data.content)) //On actualise nos données

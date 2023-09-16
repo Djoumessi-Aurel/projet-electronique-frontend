@@ -8,7 +8,7 @@ const initialState = {
   }
 
 export const getAdmin = createAsyncThunk('admin/getAdmin', async () => {
-    const response = await axios.get(API + 'admin/all')
+    const response = await axios.get(API + 'admin/all', {headers: {'Authorization': 'Basic '+ localStorage.getItem('token')}})
     return response.data
   })
 

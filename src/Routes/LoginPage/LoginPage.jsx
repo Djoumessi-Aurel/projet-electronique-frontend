@@ -11,9 +11,16 @@ import Ellipse2 from '../../assets/Images/Ellipse2.svg'
 import Ellipse3 from '../../assets/Images/Ellipse3.svg'
 import Ellipse4 from '../../assets/Images/Ellipse4.svg'
 import Ellipse5 from '../../assets/Images/Ellipse5.svg'
+import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 
-export class LoginPage extends Component {
-  render() {
+const LoginPage = () => {
+
+    const navigate = useNavigate()
+
+    useEffect(()=>{
+        if (localStorage.getItem("token")) {navigate("/accueil");}
+    }, [])
 
     const login1Style = {
         backgroundImage: `url(${Login1})`,
@@ -72,7 +79,6 @@ export class LoginPage extends Component {
             </div>
     </div>
     )
-  }
 }
 
 export default LoginPage

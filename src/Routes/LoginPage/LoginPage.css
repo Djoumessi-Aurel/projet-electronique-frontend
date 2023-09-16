@@ -3,7 +3,7 @@
     height: calc(100vh - 32px);
     justify-content: space-evenly;
     display: flex;
-    position: fixed;
+    /* position: fixed; */
    
 }
 
@@ -34,7 +34,7 @@
     display: flex;
     border-radius: 70px 0px 0px 0px;
     background-color: #102754D6;
-
+    position: relative;
     
 }
 
@@ -44,8 +44,7 @@
     display: flex;
     border-radius: 0px 0px 0px 70px;
     background-color: #102754D6;
-
-   
+    overflow-y: hidden;  
     
 }
 
@@ -65,15 +64,15 @@
     align-items: center;
     position: absolute;
     text-align: center;
-    position: fixed;
+    /* position: fixed; */
     
 }
 
 .colorband4{
     height: 15%;
     width: 25px;
-    left: 150px;
-    position: relative;
+    right: 15px;
+    position: absolute;
     top: 200px;
 }
 
@@ -81,33 +80,33 @@
     height: 90%;
     width: 25px;
     margin-bottom: 40px;
-    left: 36px;
-    position: relative;
-    top: 175px;
+    right: 25px;
+    position: absolute;
+    top: 180px;
 }
 
 .colorband1{
     height: 50%;
     width: 130px;
     margin-bottom: 40px;
-    left: 665px;
-    position: relative;
+    right: 15px;
+    position: absolute;
     top: 200px;
 }
 
 .colorband2{
     height: 50%;
     width: 170px;
-    left: 495px;
-    position: relative;
+    right: 15px;
+    position: absolute;
     top: 200px;
 }
  
 .colorband3{
     height: 50%;
     width: 240px;
-    left: 255px;
-    position: relative;
+    right: 15px;
+    position: absolute;
     top: 200px;
 }
 

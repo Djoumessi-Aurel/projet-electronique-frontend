@@ -38,7 +38,7 @@ const DeleteCoursModal = ({
     const dispatch = useDispatch()
 
     const removeCours = (e)=>{e.preventDefault()
-        axios.delete(API + 'cours/delete/' + data._id)
+        axios.delete(API + 'cours/delete/' + data._id, {headers: {'Authorization': 'Basic '+ localStorage.getItem('token')}})
           .then(function (response) {
             // console.log(response);
             dispatch(deleteCours(data._id)) //On actualise nos données

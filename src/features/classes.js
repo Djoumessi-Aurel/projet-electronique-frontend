@@ -8,7 +8,7 @@ const initialState = {
   }
 
 export const getClasses = createAsyncThunk('classes/getClasses', async () => {
-    const response = await axios.get(API + 'classe/all')
+    const response = await axios.get(API + 'classe/all', {headers: {'Authorization': 'Basic '+ localStorage.getItem('token')}})
     return response.data
   })
 

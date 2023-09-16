@@ -36,14 +36,16 @@ const TableEnrolment = () => {
 
           const updateAll = ()=>{
             const url = API + "etudiant/updateAll"; //valider tout les enrôlements en attente
-            axios.put(url).then(res => {
+            axios.put(url, {headers: {'Authorization': 'Basic '+ localStorage.getItem('token')}})
+            .then(res => {
                 dispatch(validateAllStudents())
             }).catch(err =>{console.log(err)})
             }
 
             const deleteStudent = async () => {
               try {
-                await axios.delete(`${API}etudiant/delete/${studentID}`); //supprimer un étudiant
+                await axios.delete(`${API}etudiant/delete/${studentID}`
+                , {headers: {'Authorization': 'Basic '+ localStorage.getItem('token')}}); //supprimer un étudiant
                 dispatch(deleteEtudiant(studentID))
                 
                 setId("")
@@ -58,7 +60,8 @@ const TableEnrolment = () => {
             const updateStudent = (e)=>{
               e.preventDefault()
               const url = `${API}etudiant/update/${studentID}`
-              axios.put(url,form).then((res)=>{
+              axios.put(url,form, {headers: {'Authorization': 'Basic '+ localStorage.getItem('token')}})
+              .then((res)=>{
                 dispatch(updateEtudiant(res.data.content))
                 closeModal()
                 setError("")
@@ -70,7 +73,8 @@ const TableEnrolment = () => {
 
             const validateStudent = (id)=>{
               const url = `${API}etudiant/validate/` //Valider un enrôlement
-              axios.put(url, {id: id}).then((res)=>{
+              axios.put(url, {id: id}, {headers: {'Authorization': 'Basic '+ localStorage.getItem('token')}})
+              .then((res)=>{
                 dispatch(validateOneStudent(id))
                 setError("")
               }).catch(err => {

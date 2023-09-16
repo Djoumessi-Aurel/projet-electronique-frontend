@@ -10,7 +10,6 @@ const  ProfileButton = () => {
   const logout = () => {
     localStorage.clear();
     navigate("/login")
-    //window.location="login/";
   };
 
   useEffect(() => {
@@ -27,7 +26,7 @@ const  ProfileButton = () => {
   const user = JSON.parse(localStorage.getItem('user'));
  
     return (
-      <div className='profileButton-container' onClick={() => logout()} >
+      <div className='profileButton-container' onClick={() => logout()} title='Déconnexion'>
         <div className='profileButton-container-img'><span>{user.nom.charAt(0)}</span></div>
         <span className='profileButton-container-span'>{user.nom}</span>
       </div>

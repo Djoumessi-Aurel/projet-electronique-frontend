@@ -37,7 +37,7 @@ const UpdateClasseModal = ({
         axios.put(API + 'classe/update', {
             id: data._id,
             nom, salle
-          })
+          }, {headers: {'Authorization': 'Basic '+ localStorage.getItem('token')}})
           .then(function (response) {
             // console.log(response);
             dispatch(updateClass(response.data.content))

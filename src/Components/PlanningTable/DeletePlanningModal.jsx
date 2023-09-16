@@ -41,7 +41,7 @@ const DeletePlanningModal = ({
 
     const removePlanning = (e)=>{e.preventDefault()
         //console.log(data)
-        axios.delete(API + 'planning/delete/' + data._id)
+        axios.delete(API + 'planning/delete/' + data._id, {headers: {'Authorization': 'Basic '+ localStorage.getItem('token')}})
           .then(function (response) {
             // console.log(response);
             dispatch(deletePlanning(data._id)) //On actualise nos données

@@ -8,7 +8,7 @@ const initialState = {
   }
 
 export const getPlanning = createAsyncThunk('planning/getPlanning', async () => {
-    const response = await axios.get(API + 'planning/')
+    const response = await axios.get(API + 'planning/', {headers: {'Authorization': 'Basic '+ localStorage.getItem('token')}})
     return response.data
   })
 

@@ -8,7 +8,7 @@ const initialState = {
   }
 
 export const getEtudiant = createAsyncThunk('etudiant/getEtudiant', async () => {
-    const response = await axios.get(API + 'etudiant/')
+    const response = await axios.get(API + 'etudiant/', {headers: {'Authorization': 'Basic '+ localStorage.getItem('token')}})
     return response.data.etudiantList
   })
 

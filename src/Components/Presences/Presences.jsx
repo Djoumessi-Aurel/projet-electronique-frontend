@@ -33,7 +33,7 @@ const Presences = () => {
     }
     // console.log(data);
 
-    axios.post(API + 'presence/', data)
+    axios.post(API + 'presence/', data, {headers: {'Authorization': 'Basic '+ localStorage.getItem('token')}})
       .then(function (response) {
         // console.log(response.data);
         setTimeTable(response.data) //On actualise nos données

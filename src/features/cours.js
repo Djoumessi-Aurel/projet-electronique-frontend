@@ -8,7 +8,7 @@ const initialState = {
   }
 
 export const getCours = createAsyncThunk('cours/getCours', async () => {
-    const response = await axios.get(API + 'cours/all')
+    const response = await axios.get(API + 'cours/all', {headers: {'Authorization': 'Basic '+ localStorage.getItem('token')}})
     return response.data
   })
 

@@ -37,7 +37,7 @@ const CreateClasseModal = ({
     const createClasse = (e)=>{e.preventDefault()
         axios.post(API + 'classe/store', {
             nom, salle
-          })
+          }, {headers: {'Authorization': 'Basic '+ localStorage.getItem('token')}})
           .then(function (response) {
             // console.log(response);
             dispatch(addClass(response.data.content))

@@ -4,9 +4,16 @@ import './IndexPage.css'
 import IndexBgImage from '../../assets/Images/IndexBgImage.jpg'
 import {IndexLogo} from '../../Components'
 import {IndexMiddle} from '../../Components'
+import { useNavigate } from 'react-router-dom'
+import { useEffect } from 'react'
 
-export class IndexPage extends Component {
-  render() {
+const IndexPage = () => {
+  const navigate = useNavigate()
+
+    useEffect(()=>{
+        if (localStorage.getItem("token")) {navigate("/accueil");}
+    }, [])
+
     const indexStyle = {
       backgroundImage: `url(${IndexBgImage})`,
       backgroundSize: "cover",
@@ -23,7 +30,6 @@ export class IndexPage extends Component {
         </div>
       </div>
     )
-  }
 }
 
 export default IndexPage

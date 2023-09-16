@@ -98,8 +98,8 @@ const TableAdmin = () => {
   
     const url = `${API}admin/update/`;
     
-    await axios.put(url, form).then((response) => {
-        //window.location = "admin/";
+    await axios.put(url, form, {headers: {'Authorization': 'Basic '+ localStorage.getItem('token')}}
+        ).then((response) => {
         setRequestFail("")
         if (adminId == JSON.parse(localStorage.getItem("user"))._id){
             localStorage.setItem("user", JSON.stringify(response.data.content))
@@ -118,7 +118,8 @@ const TableAdmin = () => {
   const removeAdmin = async () => {
     const url = `${API}admin/destroy/${adminId}`;
     
-    await axios.delete(url).then((response) => {
+    await axios.delete(url, {headers: {'Authorization': 'Basic '+ localStorage.getItem('token')}})
+    .then((response) => {
         console.log(response)
         dispatch(deleteAdmin(adminId))
         setRequestFail("")
@@ -139,7 +140,8 @@ const TableAdmin = () => {
   
     const url = `${API}admin/store`;
     
-    await axios.post(url, formData).then((response) => {
+    await axios.post(url, formData, {headers: {'Authorization': 'Basic '+ localStorage.getItem('token')}}
+        ).then((response) => {
         dispatch(addAdmin(response.data.content))
         setRequestFail("")
         closeCreateModal()
